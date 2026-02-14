@@ -1,0 +1,119 @@
+{
+  "design_identity": {
+    "persona": "E1",
+    "mission": "Create a 'Love Life Debugger' that feels like a high-end, intimate scientific instrument. Dark, moody, but deeply emotional.",
+    "core_principles": [
+      "Fusion: Romantic Emotion x Scientific Precision",
+      "Immersion: Dark mode only. No blinding white screens.",
+      "Intimacy: Close-up abstract textures, glowing elements.",
+      "Clarity: Data (results) must be beautiful and instantly readable."
+    ]
+  },
+  "typography": {
+    "instructions": "Import 'Playfair Display' (400, 700) and 'Manrope' (300, 400, 600) from Google Fonts.",
+    "font_family": {
+      "heading": "\"Playfair Display\", serif",
+      "body": "\"Manrope\", sans-serif",
+      "mono": "\"JetBrains Mono\", monospace"
+    },
+    "scale": {
+      "h1": "text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]",
+      "h2": "text-3xl md:text-5xl font-semibold tracking-tight",
+      "h3": "text-2xl md:text-3xl font-medium",
+      "body_lg": "text-lg md:text-xl leading-relaxed text-muted-foreground",
+      "body": "text-base leading-relaxed text-muted-foreground",
+      "caption": "text-sm tracking-widest uppercase text-muted-foreground/60"
+    }
+  },
+  "colors": {
+    "palette": {
+      "background": "#050505",
+      "foreground": "#fafafa",
+      "primary": "#e11d48",
+      "primary_foreground": "#fff1f2",
+      "secondary": "#27272a",
+      "secondary_foreground": "#fafafa",
+      "muted": "#18181b",
+      "muted_foreground": "#a1a1aa",
+      "accent": "#be123c",
+      "accent_foreground": "#fafafa",
+      "border": "#27272a",
+      "input": "#27272a",
+      "ring": "#e11d48"
+    },
+    "gradients": {
+      "heartbeat": "bg-gradient-to-r from-rose-600 to-pink-600",
+      "dark_overlay": "bg-gradient-to-b from-transparent via-black/80 to-black"
+    },
+    "usage_rules": [
+      "Background must be nearly black (#050505), never pure black (#000000) for less eye strain.",
+      "Primary Red (#e11d48) is used for 'Love' and 'Action'. Use sparingly as a spotlight.",
+      "Text should never be pure white. Use #fafafa or #e5e5e5.",
+      "Borders should be subtle: white/10 or white/5."
+    ]
+  },
+  "visual_enhancers": {
+    "glassmorphism": "bg-black/40 backdrop-blur-xl border border-white/10",
+    "neon_glow": "shadow-[0_0_30px_-5px_rgba(225,29,72,0.4)]",
+    "textures": "Add a subtle noise texture overlay with opacity-5 pointer-events-none fixed inset-0 z-50 mix-blend-overlay",
+    "animation": {
+      "slow_pulse": "animate-pulse duration-[3000ms]",
+      "fade_in_up": "animate-in slide-in-from-bottom-8 fade-in duration-700"
+    }
+  },
+  "layout_strategies": {
+    "container": "max-w-7xl mx-auto px-6 md:px-12",
+    "section_spacing": "py-24 md:py-32",
+    "grid_bento": "grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(180px,auto)]",
+    "quiz_container": "max-w-2xl mx-auto min-h-[60vh] flex flex-col justify-center"
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-primary/90 rounded-full px-8 py-6 text-lg font-medium transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(225,29,72,0.4)]",
+      "secondary": "bg-secondary text-white hover:bg-secondary/80 rounded-full px-8 py-6 text-lg transition-all",
+      "outline": "border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full px-8 py-6 transition-all"
+    },
+    "cards": {
+      "default": "bg-zinc-900/50 border border-white/5 rounded-3xl p-8 hover:border-rose-500/30 transition-colors duration-300",
+      "highlight": "bg-gradient-to-br from-zinc-900 to-black border border-rose-500/20 rounded-3xl p-8 relative overflow-hidden"
+    },
+    "inputs": {
+      "default": "bg-zinc-900/50 border-white/10 focus:border-rose-500 focus:ring-rose-500/20 h-12 rounded-xl"
+    }
+  },
+  "media": {
+    "hero_image": {
+      "url": "https://images.unsplash.com/photo-1625685554567-174be072393f",
+      "alt": "Abstract Red Light in Dark Room",
+      "usage": "Full screen background with overlay-black/60"
+    },
+    "tech_accent": {
+      "url": "https://images.unsplash.com/photo-1517938833378-3c78e6c8ddf2",
+      "alt": "Neon Heart Pulse",
+      "usage": "Small icon or card background for 'Scientific Analysis' section"
+    },
+    "mood_abstract": {
+      "url": "https://images.unsplash.com/photo-1695390836844-5fca49c7d91e",
+      "alt": "Red and Black Connection Lines",
+      "usage": "Background for Results Page or Quiz Section"
+    }
+  },
+  "universal_guidelines": [
+    "Do not use generic gradients. Use deep, rich solid colors or subtle mesh gradients.",
+    "Ensure 4.5:1 contrast ratio for all text.",
+    "All interactive elements must have a :focus-visible state.",
+    "Use 'sonner' for toasts.",
+    "Use 'lucide-react' for icons.",
+    "Mobile first responsiveness is mandatory.",
+    "Do NOT use 'alert' or 'confirm'. Use custom Dialogs.",
+    "Add 'data-testid' to all interactive elements."
+  ],
+  "instructions_to_main_agent": [
+    "1. UPDATE tailwind.config.js with the colors and fonts defined above.",
+    "2. INSTALL 'lucide-react', 'framer-motion', 'clsx', 'tailwind-merge' if not present.",
+    "3. CREATE a global layout that enforces the dark theme (add 'dark' class to html/body).",
+    "4. BUILD the 'Quiz' flow with Framer Motion for smooth question transitions.",
+    "5. IMPLEMENT the 'Results' page with a clear distinction between Free (blurred) and Paid content.",
+    "6. USE the provided image URLs for the Hero and decorative elements."
+  ]
+}
