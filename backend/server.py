@@ -42,7 +42,7 @@ QUESTIONS = [
     {"n": 7, "section": "Attachment", "text": "I prefer solving problems alone rather than leaning on a partner."},
     {"n": 8, "section": "Attachment", "text": "I get uncomfortable with emotional conversations that feel heavy."},
     # Conflict Section
-    {"n": 9, "section": "Conflict", "text": "I bring up issues as character flaws (you always... you never...)."},
+    {"n": 9, "section": "Conflict", "text": "I bring up issues as character flaws (you always, you never)."},
     {"n": 10, "section": "Conflict", "text": "I use sarcasm, eye-roll energy, or put-downs when upset."},
     {"n": 11, "section": "Conflict", "text": "I defend myself fast instead of hearing the point."},
     {"n": 12, "section": "Conflict", "text": "I shut down, go quiet, or leave the conversation mentally/physically."},
