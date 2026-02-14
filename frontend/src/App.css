@@ -1,34 +1,126 @@
-.App-logo {
-    height: 40vmin;
+/* Love Life Debugger Custom Styles */
+
+.App {
+    min-height: 100vh;
+}
+
+/* Hero background with overlay */
+.hero-bg {
+    background-image: 
+        linear-gradient(to bottom, rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.9)),
+        url('https://images.unsplash.com/photo-1625685554567-174be072393f?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Scale option buttons */
+.scale-option {
+    @apply relative overflow-hidden transition-all duration-200;
+}
+
+.scale-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(225, 29, 72, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.scale-option:hover::before {
+    opacity: 1;
+}
+
+.scale-option.selected {
+    background: rgba(225, 29, 72, 0.15);
+    border-color: rgba(225, 29, 72, 0.5);
+}
+
+.scale-option.selected::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(225, 29, 72, 0.2), transparent);
+}
+
+/* Progress bar gradient */
+.progress-fill {
+    background: linear-gradient(90deg, #e11d48, #f43f5e, #fb7185);
+}
+
+/* Card hover effect */
+.result-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Blur effect for locked content */
+.locked-blur {
+    filter: blur(8px);
+    user-select: none;
     pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
+/* Heart pulse animation */
+@keyframes heart-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
     }
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.heart-pulse {
+    animation: heart-pulse 1.5s ease-in-out infinite;
 }
 
-.App-link {
-    color: #61dafb;
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Question section headers */
+.section-badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase;
+    background: linear-gradient(135deg, rgba(225, 29, 72, 0.2), rgba(190, 18, 60, 0.1));
+    border: 1px solid rgba(225, 29, 72, 0.3);
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
+/* Score card KPI styling */
+.kpi-card {
+    @apply relative overflow-hidden;
+}
+
+.kpi-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #e11d48, transparent);
+}
+
+/* Share button styles */
+.share-btn {
+    @apply flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-200;
+}
+
+.share-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .hero-bg {
+        background-attachment: scroll;
     }
 }
