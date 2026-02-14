@@ -299,7 +299,10 @@ def compute_teaser_results(answers: List[int]) -> Dict:
 async def send_results_email(email: str, results: Dict):
     """Send quiz results via email using SMTP"""
     smtp_host = os.environ.get('SMTP_HOST')
-    smtp_port = int(os.environ.get('SMTP_PORT', 587))
+    try:
+        smtp_port = int(os.environ.get('SMTP_PORT', 587))
+    except ValueError:
+        raise HTTPException(status_code=500, detail="Invalid SMTP_PORT configuration: must be a number")
     smtp_user = os.environ.get('SMTP_USER')
     smtp_password = os.environ.get('SMTP_PASSWORD')
     from_email = os.environ.get('FROM_EMAIL')
@@ -314,7 +317,7 @@ async def send_results_email(email: str, results: Dict):
     steps_escaped = [html.escape(step) for step in results['steps']]
     
     # Create email content
-    subject = f"Your Love Life Debugger Results - {results['label']}"
+    subject = f"Your Love Life Debugger Results - {label_escaped}"
     
     # Create HTML email body
     html_body = f"""
