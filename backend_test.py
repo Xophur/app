@@ -17,14 +17,7 @@ class LoveLifeDebuggerTester:
         self.session_id = None
         
         # Test answers - valid 1-5 scale answers for all 25 questions
-        self.test_answers = [
-            4, 3, 2, 5, 1,  # Attachment (AX)
-            2, 3, 4, 1,     # Attachment (AV)
-            3, 4, 2, 1,     # Conflict 
-            5, 4,           # Conflict (reverse scored)
-            3, 2,           # Conflict continued
-            4, 3, 2, 5, 1, 3, 4, 2, 1  # Patterns
-        ]
+        self.test_answers = [4, 3, 2, 5, 1, 2, 3, 4, 1, 3, 4, 2, 1, 5, 4, 3, 2, 4, 3, 2, 5, 1, 3, 4, 2]
     
     def log_test(self, name, passed, details=""):
         """Log test result"""
