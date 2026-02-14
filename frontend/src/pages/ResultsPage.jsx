@@ -538,7 +538,7 @@ export default function ResultsPage() {
             </div>
 
             {/* Free Copy Option */}
-            <div className="mt-8 text-center">
+            <div className="mt-8 text-center relative z-20">
               <Button
                 onClick={copyToClipboard}
                 variant="outline"
