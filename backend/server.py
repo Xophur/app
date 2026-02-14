@@ -12,10 +12,12 @@ from datetime import datetime, timezone
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import asyncio
+import html
 from emergentintegrations.payments.stripe.checkout import (
-    StripeCheckout, 
-    CheckoutSessionResponse, 
-    CheckoutStatusResponse, 
+    StripeCheckout,
+    CheckoutSessionResponse,
+    CheckoutStatusResponse,
     CheckoutSessionRequest
 )
 
@@ -305,6 +307,12 @@ async def send_results_email(email: str, results: Dict):
     if not all([smtp_host, smtp_user, smtp_password, from_email]):
         raise HTTPException(status_code=500, detail="Email service not configured")
     
+    # Escape all dynamic content for HTML safety
+    label_escaped = html.escape(results['label'])
+    what_escaped = html.escape(results['what'])
+    script_escaped = html.escape(results['script'])
+    steps_escaped = [html.escape(step) for step in results['steps']]
+    
     # Create email content
     subject = f"Your Love Life Debugger Results - {results['label']}"
     
@@ -314,32 +322,32 @@ async def send_results_email(email: str, results: Dict):
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <h1 style="color: #e91e63;">Your Love Life Debugger Results</h1>
             
-            <h2>Your Profile: {results['label']}</h2>
+            <h2>Your Profile: {label_escaped}</h2>
             
             <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <h3>What's happening:</h3>
-                <p>{results['what']}</p>
+                <p>{what_escaped}</p>
             </div>
             
             <div style="background-color: #fff3e0; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <h3>Your Action Steps:</h3>
                 <ol>
-                    {''.join([f'<li style="margin: 10px 0;">{step}</li>' for step in results['steps']])}
+                    {''.join([f'<li style="margin: 10px 0;">{step}</li>' for step in steps_escaped])}
                 </ol>
             </div>
             
             <div style="background-color: #e3f2fd; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <h3>Your Script:</h3>
-                <p style="font-style: italic;">"{results['script']}"</p>
+                <p style="font-style: italic;">"{script_escaped}"</p>
             </div>
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
                 <h3>Your Scores:</h3>
                 <ul>
-                    <li>Anxious Attachment: {results['scores']['ax']} ({results['scores']['ax_tag']})</li>
-                    <li>Avoidant Attachment: {results['scores']['av']} ({results['scores']['av_tag']})</li>
-                    <li>Conflict Risk: {results['scores']['cr']} ({results['scores']['cr_tag']})</li>
-                    <li>Pattern Score: {results['scores']['ps']} ({results['scores']['ps_tag']})</li>
+                    <li>Anxious Attachment: {results['scores']['ax']} ({html.escape(results['scores']['ax_tag'])})</li>
+                    <li>Avoidant Attachment: {results['scores']['av']} ({html.escape(results['scores']['av_tag'])})</li>
+                    <li>Conflict Risk: {results['scores']['cr']} ({html.escape(results['scores']['cr_tag'])})</li>
+                    <li>Pattern Score: {results['scores']['ps']} ({html.escape(results['scores']['ps_tag'])})</li>
                 </ul>
             </div>
             
@@ -386,13 +394,15 @@ Keep these results somewhere safe. Review your action steps regularly.
     msg.attach(part1)
     msg.attach(part2)
     
-    # Send email
-    try:
+    # Send email using thread pool to avoid blocking the event loop
+    def _send_email():
         with smtplib.SMTP(smtp_host, smtp_port) as server:
             server.starttls()
             server.login(smtp_user, smtp_password)
             server.send_message(msg)
-        return True
+    
+    try:
+        await asyncio.to_thread(_send_email)
     except Exception as e:
         logging.error(f"Email sending failed: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to send email: {str(e)}")
@@ -594,14 +604,14 @@ async def email_results(request: EmailResultsRequest):
     if not result.get("is_paid"):
         raise HTTPException(status_code=403, detail="This feature requires unlocking full results")
     
-    # Send the email
-    await send_results_email(request.email, result["full_results"])
-    
-    # Update database
+    # Update database first to track the attempt
     await db.quiz_results.update_one(
         {"id": request.result_id},
         {"$set": {"emailed_to": request.email, "emailed_at": datetime.now(timezone.utc).isoformat()}}
     )
+    
+    # Send the email
+    await send_results_email(request.email, result["full_results"])
     
     return {"success": True, "message": f"Results sent to {request.email}"}
 
