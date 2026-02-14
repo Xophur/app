@@ -293,6 +293,7 @@ def compute_teaser_results(answers: List[int]) -> Dict:
         "teaser_tip": "Unlock your full analysis to discover what tends to go wrong and exactly how to improve."
     }
 
+
 async def send_results_email(email: str, results: Dict):
     """Send quiz results via email using SMTP"""
     smtp_host = os.environ.get('SMTP_HOST')
